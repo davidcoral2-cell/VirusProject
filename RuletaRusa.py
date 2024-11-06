@@ -111,7 +111,7 @@ while i == True:
 
         if nb in lista:
             print("Te has salvado, has adivinado el número, que era {}".format(nb))
-            break
+            i = False
         if nm in lista:
             print("JAJAJAJAJAJA Has adivinado el numero malo, ahora te doy 3 segundos para despedirte de tu ordenador ")
             time.sleep(3)
