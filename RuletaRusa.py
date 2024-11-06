@@ -28,18 +28,20 @@ def sistema():
 sis = sistema()
 if sis == 1:
     def is_admin():
-        try:
+        try:   
             return ctypes.windll.shell32.IsUserAnAdmin() != 0
         except:
             return False
 
+    def run_as_admin():
+    
+        ctypes.windll.shell32.ShellExecuteW(None, "runas", sys.executable, ' '.join(sys.argv), None, 1)
+
 
     if not is_admin():
-        print("No tienes privilegios de administrador. Intentando elevarlos...")
-        ctypes.windll.shell32.ShellExecuteW(None, "runas", sys.executable, ' '.join(sys.argv), None, 1)
-        sys.exit()  
-    else:
-        print("Script ejecutándose con privilegios de administrador.")
+        print("Este script necesita privilegios de administrador. Intentando reiniciarlo...")
+        run_as_admin()  # Ejecuta el script como administrador
+        sys.exit()  # Sale de la ejecución actual
 
 if sis in [2, 3, 4]:
     def is_root():
